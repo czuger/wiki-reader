@@ -1,0 +1,14 @@
+{
+  "open_ai": {
+    "openai_key": "sk-your-openai-api-key-here"
+  },
+  "mongo": {
+    "server": "localhost:27017",
+    "user": "admin",
+    "pass": "password123",
+    "database": "myapp"
+  },
+  "flask": {
+    "secret_key": "your-secure-secret-key-here"
+  }
+}
