@@ -1,0 +1,1 @@
+scp output/egypte_periode_predynastique.mp3 rpi4fe:~/navidrome/music/Wikipedia/egypte/

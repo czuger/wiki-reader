@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from core.converter import TextToSpeechGenerator
 from core.reader import extract_text_from_url
 
@@ -7,8 +10,11 @@ def main():
     print("Web Article to Speech Converter")
     print("-" * 40)
 
+    shutil.rmtree("audio_cache")
+    os.makedirs("audio_cache")
+
     # Get URL from user
-    url = "https://fr.wikipedia.org/wiki/P%C3%A9riode_thinite"
+    url = "https://fr.wikipedia.org/wiki/P%C3%A9riode_pr%C3%A9dynastique_%C3%A9gyptienne"
 
     print(f"\nProcessing URL: {url}")
 

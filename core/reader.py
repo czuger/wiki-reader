@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+from core.rewritting.av_jc import replace_av_jc
 from core.rewritting.roman2ordinals import replace_roman_ordinals
 
 MAX_WORDS_PER_SECTION = 4096
@@ -65,6 +66,7 @@ def extract_text_from_url(url):
                 raise ValueError(f"Paragraph exceeds {MAX_WORDS_PER_SECTION} words ({p_word_count} words)")
 
             clean_p_text = replace_roman_ordinals(clean_p_text)
+            clean_p_text = replace_av_jc(clean_p_text)
             sections.append(clean_p_text)
 
     return sections
@@ -72,7 +74,7 @@ def extract_text_from_url(url):
 
 def main():
     # Get URL from user
-    url = "https://fr.wikipedia.org/wiki/P%C3%A9riode_thinite"
+    url = "https://fr.wikipedia.org/wiki/Ancien_Empire"
 
     print(f"\nProcessing URL: {url}")
 
