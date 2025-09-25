@@ -1,0 +1,57 @@
+# Music library configuration for Wikipedia Egypt collection
+globals:
+  artist: "Wikipédia"
+  album: "Egypte antique"
+  remote_server: "rpi4fe"  # Raspberry Pi 4 server
+  remote_path: "/home/ced/navidrome/music/Wikipedia/egypte/"
+
+tracks:
+  #  # Track 1: Pre-dynastic period
+  #  - link: "https://fr.wikipedia.org/wiki/Ancien_Empire"
+  #    title: "Période pré-dynastique"
+  #    track_id: 1
+  #    distant_name: "egypte_periode_predynastique.mp3"
+  #
+  #  # Track 2: Thinite period
+  #  - link: "https://fr.wikipedia.org/wiki/Ancien_Empire"
+  #    title: "Période Tinite"
+  #    track_id: 2
+  #    distant_name: "egypte_periode_tinite.mp3"
+  #
+  #  # Track 3: Old Kingdom period
+  #  - link: "https://fr.wikipedia.org/wiki/Ancien_Empire"
+  #    title: "Ancien empire"
+  #    track_id: 3
+  #    distant_name: "egypte_ancien_empire.mp3"
+  #
+  #  - link: "https://fr.wikipedia.org/wiki/Premi%C3%A8re_P%C3%A9riode_interm%C3%A9diaire"
+  #    title: "Première période intermédiaire"
+  #    track_id: 4
+  #    distant_name: "egypte_permiere_periode_intermediaire.mp3"
+  #  - link: "https://fr.wikipedia.org/wiki/Moyen_Empire"
+  #    title: "Moyen empire"
+  #    track_id: 5
+  #
+  #  - link: "https://fr.wikipedia.org/wiki/Deuxi%C3%A8me_P%C3%A9riode_interm%C3%A9diaire"
+  #    title: "Deuxième période intermédiaire"
+  #    track_id: 6
+  #
+  #  - link: "https://fr.wikipedia.org/wiki/Nouvel_Empire"
+  #    title: "Nouvel empire"
+  #    track_id: 7
+
+  - link: "https://fr.wikipedia.org/wiki/Troisi%C3%A8me_P%C3%A9riode_interm%C3%A9diaire"
+    title: "Troisième Période intermédiaire"
+    track_id: 8
+
+  - link: "https://fr.wikipedia.org/wiki/Basse_%C3%89poque"
+    title: "Basse époque"
+    track_id: 9
+
+  - link: "https://fr.wikipedia.org/wiki/P%C3%A9riode_mac%C3%A9donienne_de_l%27%C3%89gypte_antique"
+    title: "Période macédonienne de l'Égypte antique"
+    track_id: 10
+
+  - link: "https://fr.wikipedia.org/wiki/Royaume_lagide"
+    title: "Royaume lagide"
+    track_id: 11

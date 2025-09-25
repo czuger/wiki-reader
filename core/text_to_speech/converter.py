@@ -1,4 +1,5 @@
 import os
+
 from openai import OpenAI
 
 from config.config import Config
@@ -10,7 +11,7 @@ Sincere, empathetic, and gently authoritative—express genuine apology while co
 and moderate; unhurried enough to communicate care, yet efficient enough to demonstrate professionalism.\n\nEmotion: 
 Genuine empathy and understanding; speak with warmth."""
 
-    def __init__(self):
+    def __init__(self, working_dir: str):
         """Initialize the TTS generator with OpenAI client and iterator"""
         # Initialize OpenAI client
         config = Config()
@@ -20,7 +21,7 @@ Genuine empathy and understanding; speak with warmth."""
         self.file_iterator = 0
 
         # Create audio directory if it doesn't exist
-        self.audio_dir = "audio_cache"
+        self.audio_dir = working_dir
         os.makedirs(self.audio_dir, exist_ok=True)
 
     def _generate_filename(self):

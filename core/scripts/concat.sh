@@ -5,6 +5,7 @@ cd "$1" || exit
 
 # Remove any existing filelist
 rm -f filelist.txt
+rm -f concatenated_file.mp3
 
 # Create filelist automatically from all MP3s in audio_cache directory
 for file in *.mp3; do
@@ -25,9 +26,9 @@ cat filelist.txt
 
 # Join all MP3 files
 echo "Joining files..."
-ffmpeg -f concat -safe 0 -i filelist.txt -c copy concatenated_file.mp3
+ffmpeg -v quiet -f concat -safe 0 -i filelist.txt -c copy concatenated_file.mp3
 
 # Clean up
 rm filelist.txt
 
-echo "Done! Combined file saved as combined_audio.mp3 in parent directory"
+echo "Done! Combined file saved as concatenated_file.mp3 in  directory"

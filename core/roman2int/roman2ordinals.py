@@ -1,9 +1,10 @@
 import re
 
-# French ordinal numbers up to 50
+from core.roman2int.roman2int import roman_to_int
+
 french_ordinals = {
-    1: "première",
-    2: "seconde",
+    1: "premier",
+    2: "second",
     3: "troisième",
     4: "quatrième",
     5: "cinquième",
@@ -54,30 +55,26 @@ french_ordinals = {
     50: "cinquantième"
 }
 
-def roman_to_int(roman):
-    """Convert Roman numeral to integer"""
-    roman_values = {'I': 1, 'V': 5, 'X': 10, 'L': 50}
-    total = 0
-    prev_value = 0
+# Only the differences for feminine ordinals
+feminine_ordinal_differences = {
+    1: "première",  # premier → première
+    2: "seconde"  # second → seconde
+}
 
-    for char in reversed(roman):
-        value = roman_values.get(char, 0)
-        if value < prev_value:
-            total -= value
-        else:
-            total += value
-        prev_value = value
 
-    return total
+def get_french_ordinal(number, feminine=True):
+    """Get French ordinal, with option for feminine form"""
+    base_form = french_ordinals.get(number)
+    if base_form and feminine and number in feminine_ordinal_differences:
+        return feminine_ordinal_differences[number]
+    return base_form
 
-def replace_roman_ordinals(text):
+
+def replace_roman_or_arabic_ordinals(text, feminine=True):
     """
-    Replace Roman numeral ordinals (Ire, IIe, IIIe, etc.) with French ordinals
-    (première, seconde, troisième, etc.) up to 50
+    Replace Roman numeral ordinals (Ire, IIe, IIIe, etc.) and Arabic numeral ordinals (14e, 15e, etc.)
+    with French ordinals (première, seconde, troisième, etc.) up to 50
     """
-    # Pattern to match Roman numerals followed by 're' or 'e'
-    # Updated to include L for 50
-    pattern = r'\b([IVXL]+)(re|e)\b'
 
     def replace_match(match):
         # Get the full match and its position
@@ -95,20 +92,35 @@ def replace_roman_ordinals(text):
         if '.' in preceding_chars:
             return match.group(0)  # Return original
 
-        roman_part = match.group(1)  # The Roman numeral part (I, II, III, etc.)
-        suffix = match.group(2)  # The suffix (re or e)
+        # Get the number (either Roman or Arabic)
+        if match.group(1).isdigit():  # Arabic numeral
+            number = int(match.group(1))
+        else:  # Roman numeral
+            number = roman_to_int(match.group(1))
 
-        # Convert Roman numeral to integer
-        number = roman_to_int(roman_part)
+        # Determine gender based on suffix
+        suffix = match.group(2).lower()
+        is_feminine = suffix in ['re', 'ère']  # 're' and 'ère' are feminine, 'er' and 'e' are masculine
 
         # Get the French ordinal
         if number in french_ordinals:
-            return french_ordinals[number]
+            return get_french_ordinal(number, is_feminine)
         else:
             # If we don't have the French equivalent, return original
             return match.group(0)
 
-    result = re.sub(pattern, replace_match, text)
+    # Pattern to match Roman numerals followed by 're', 'ère', 'er', or 'e'
+    roman_pattern = r'\b([IVXL]+)(re|ère|er|e)\b'
+
+    # Pattern to match Arabic numerals followed by 're', 'ère', 'er', or 'e'
+    arabic_pattern = r'\b(\d+)(re|ère|er|e)\b'
+
+    # First replace Roman numerals
+    result = re.sub(roman_pattern, replace_match, text)
+
+    # Then replace Arabic numerals
+    result = re.sub(arabic_pattern, replace_match, result)
+
     return result
 
 
@@ -116,23 +128,27 @@ def replace_roman_ordinals(text):
 if __name__ == "__main__":
     test_text = "La Ire guerre mondiale, la IIe République, le IIIe siècle, le XXVIIIe arrondissement, le Le siècle."
     print("Original:", test_text)
-    print("Replaced:", replace_roman_ordinals(test_text))
+    print("Replaced:", replace_roman_or_arabic_ordinals(test_text))
 
     # More test cases including higher numbers
     test_cases = [
-        "Ire étape",
-        "IIe division",
-        "IIIe République",
-        "Ve siècle",
-        "Xe arrondissement",
-        "XXe siècle",
-        "XXIe siècle",
-        "XXVe anniversaire",
-        "XXXe édition",
-        "XLe parallèle",
-        "XLVe président",
+        "La Ire étape",
+        "La IIe division",
+        "La IIIe République",
+        "Le Ve siècle",
+        "Le Xe arrondissement",
+        "Le XXe siècle",
+        "Le XXIe siècle",
+        "Le XXVe anniversaire",
+        "La XXXe édition",
+        "Le XLe parallèle",
+        "Le XLVe président",
+        "Le Ie président",
         "Le jour"  # Roman numeral for 50
     ]
 
     for test in test_cases:
-        print(f"{test} → {replace_roman_ordinals(test)}")
+        print(f"{test} → {replace_roman_or_arabic_ordinals(test)}")
+
+    result = replace_roman_or_arabic_ordinals("Le Ire jour", feminine=False)
+    print(f"Le Ire jour → {result}")

@@ -3,4 +3,4 @@
 cd "$1" || exit
 
 pwd
-scp "$2" "$3"/
+scp "concatenated_file.mp3" "$2"

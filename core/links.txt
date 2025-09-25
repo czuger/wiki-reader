@@ -1,2 +1,0 @@
-# Link;Artist;Album;Title;Track Id;Distant name;Distant path
-https://fr.wikipedia.org/wiki/Ancien_Empire;Wikipédia;Egypte antique;Ancien empire;3;egypte_ancien_empire.mp3;rpi4fe:~/navidrome/music/Wikipedia/egypte/
