@@ -6,10 +6,11 @@ from config.config import Config
 
 
 class TextToSpeechGenerator:
-    INSTRUCTIONS = """Voice Affect: Calm, composed, and reassuring; project quiet authority and confidence.\n\nTone: 
-Sincere, empathetic, and gently authoritative—express genuine apology while conveying competence.\n\nPacing: Steady 
-and moderate; unhurried enough to communicate care, yet efficient enough to demonstrate professionalism.\n\nEmotion: 
-Genuine empathy and understanding; speak with warmth."""
+    INSTRUCTIONS = """
+        Effet vocal : Calme, posé et rassurant ; projeter une autorité tranquille et de la confiance.
+        Ton : Sincère, empathique et délicatement autoritaire — exprimer des excuses authentiques tout en transmettant la compétence.
+        Rythme : Régulier et modéré ; suffisamment posé pour communiquer l'attention, mais assez efficace pour démontrer le professionnalisme.
+        Émotion : Empathie et compréhension véritables ; parler avec chaleur."""
 
     def __init__(self, working_dir: str):
         """Initialize the TTS generator with OpenAI client and iterator"""
