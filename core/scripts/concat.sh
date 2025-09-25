@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Navigate to audio_cache directory
-cd audio_cache
+cd "$1" || exit
 
 # Remove any existing filelist
 rm -f filelist.txt
@@ -25,7 +25,7 @@ cat filelist.txt
 
 # Join all MP3 files
 echo "Joining files..."
-ffmpeg -f concat -safe 0 -i filelist.txt -c copy ../egypte_periode_predynastique.mp3
+ffmpeg -f concat -safe 0 -i filelist.txt -c copy concatenated_file.mp3
 
 # Clean up
 rm filelist.txt

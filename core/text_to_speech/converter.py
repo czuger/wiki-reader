@@ -8,10 +8,7 @@ class TextToSpeechGenerator:
     INSTRUCTIONS = """Voice Affect: Calm, composed, and reassuring; project quiet authority and confidence.\n\nTone: 
 Sincere, empathetic, and gently authoritative—express genuine apology while conveying competence.\n\nPacing: Steady 
 and moderate; unhurried enough to communicate care, yet efficient enough to demonstrate professionalism.\n\nEmotion: 
-Genuine empathy and understanding; speak with warmth, especially during apologies 
-("I'm very sorry for any disruption...").\n\nPronunciation: Clear and precise, emphasizing key reassurances 
-("smoothly," "quickly," "promptly") to reinforce confidence.\n\nPauses: Brief pauses after offering assistance 
-or requesting details, highlighting willingness to listen and support."""
+Genuine empathy and understanding; speak with warmth."""
 
     def __init__(self):
         """Initialize the TTS generator with OpenAI client and iterator"""

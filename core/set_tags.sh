@@ -1,1 +1,0 @@
-ffmpeg -i output/egypte_periode_predynastique.mp3 -metadata artist="Wikipédia" -metadata album="Egypte antique" -metadata title="Période Pré Dynastique" -c copy temp.mp3 && mv temp.mp3 output/egypte_periode_predynastique.mp3
