@@ -20,6 +20,10 @@ class Config:
         """Return OpenAI API key."""
         return self._config['open_ai']['openai_key']
 
+    def camb_ai_key(self) -> str:
+        """Return OpenAI API key."""
+        return self._config['camb.ai']['key']
+
     # Mongo accessors
     def mongo_server(self) -> str:
         """Return MongoDB server address."""
