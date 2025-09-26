@@ -10,7 +10,8 @@ class TextToSpeechGenerator:
         Effet vocal : Calme, posé et rassurant ; projeter une autorité tranquille et de la confiance.
         Ton : Sincère, empathique et délicatement autoritaire — exprimer des excuses authentiques tout en transmettant la compétence.
         Rythme : Régulier et modéré ; suffisamment posé pour communiquer l'attention, mais assez efficace pour démontrer le professionnalisme.
-        Émotion : Empathie et compréhension véritables ; parler avec chaleur."""
+        Émotion : Empathie et compréhension véritables ; parler avec chaleur.
+        """
 
     def __init__(self, working_dir: str):
         """Initialize the TTS generator with OpenAI client and iterator"""
@@ -58,3 +59,16 @@ class TextToSpeechGenerator:
     def get_current_iterator_value(self):
         """Get the current iterator value"""
         return self.file_iterator
+
+
+def main():
+    # Get URL from user
+    t = TextToSpeechGenerator(".")
+    t.text_to_speech_file("""
+    Il couvre une période allant des environs de deux mille trente-trois à mille sept cent quatre-vingt-six avant Jésus-Christ et
+connaît deux ou trois dynasties.
+    """)
+
+
+if __name__ == "__main__":
+    main()

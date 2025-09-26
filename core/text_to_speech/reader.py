@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+from core.roman2int.arabic2litteral import convert_numbers_to_french
 from core.roman2int.av_jc import replace_av_jc
 from core.roman2int.roman2numerals import replace_roman_numerals
 from core.roman2int.roman2ordinals import replace_roman_or_arabic_ordinals
@@ -73,6 +74,7 @@ def extract_text_from_url(url):
             clean_p_text = replace_roman_or_arabic_ordinals(clean_p_text)
             clean_p_text = replace_roman_numerals(clean_p_text)
             clean_p_text = replace_av_jc(clean_p_text)
+            clean_p_text = convert_numbers_to_french(clean_p_text)
             sections.append(clean_p_text)
 
     return sections
