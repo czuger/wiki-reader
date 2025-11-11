@@ -1,0 +1,11 @@
+# Music library configuration for Wikipedia Egypt collection
+globals:
+  artist: "Wikipédia"
+  album: "Sumer"
+  remote_server: "nuc150"  # Raspberry Pi 4 server
+  remote_path: "/home/ced/navidrome/music/wikipedia/sumer/"
+
+tracks:
+  - link: "https://fr.wikipedia.org/wiki/Sumer"
+    title: "Sumer"
+    track_id: 1

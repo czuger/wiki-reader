@@ -4,7 +4,7 @@ from core.roman2int.roman2int import roman_to_int
 
 french_ordinals = {
     1: "premier",
-    2: "second",
+    2: "deuxième",
     3: "troisième",
     4: "quatrième",
     5: "cinquième",
@@ -58,12 +58,48 @@ french_ordinals = {
 # Only the differences for feminine ordinals
 feminine_ordinal_differences = {
     1: "première",  # premier → première
-    2: "seconde"  # second → seconde
+    2: "deuxième"  # second → seconde
 }
 
 
-def get_french_ordinal(number, feminine=True):
-    """Get French ordinal, with option for feminine form"""
+def find_if_sentence_is_feminine(phrase: str) -> bool:
+    """
+    Détecte si une phrase française est au féminin.
+
+    Cette fonction analyse l'article défini au début de la phrase
+    pour déterminer si le genre est féminin (La).
+
+    Args :
+        phrase : La phrase française à analyser
+
+    Returns :
+        True si la phrase est au féminin (commence par "La"), False sinon
+    """
+    # Convertir en minuscules pour la comparaison et séparer les mots
+    phrase_lower = phrase.lower().strip()
+    premier_mot = phrase_lower.split()[0]
+
+    # Vérifier l'article défini
+    if premier_mot == "la":
+        return True
+    else:
+        return False
+
+
+def get_french_ordinal(number: int, feminine: bool) -> str:
+    """
+    Obtient l'ordinal français pour un nombre donné.
+
+    Cette fonction retourne la forme ordinale d'un nombre en français,
+    avec possibilité d'obtenir la forme féminine si elle diffère de la forme masculine.
+
+    Args :
+        number : Le nombre à convertir en ordinal
+        feminine : True pour la forme féminine, False pour la forme masculine
+
+    Returns :
+        L'ordinal en français (ex : "premier", "première", "deuxième")
+    """
     base_form = french_ordinals.get(number)
     if base_form and feminine and number in feminine_ordinal_differences:
         return feminine_ordinal_differences[number]
@@ -92,6 +128,10 @@ def replace_roman_or_arabic_ordinals(text, feminine=True):
         if '.' in preceding_chars:
             return match.group(0)  # Return original
 
+        # If there's a « in the preceding 3 characters, don't replace
+        if '«' in preceding_chars:
+            return match.group(0)  # Return original
+
         # Get the number (either Roman or Arabic)
         if match.group(1).isdigit():  # Arabic numeral
             number = int(match.group(1))
@@ -101,6 +141,9 @@ def replace_roman_or_arabic_ordinals(text, feminine=True):
         # Determine gender based on suffix
         suffix = match.group(2).lower()
         is_feminine = suffix in ['re', 'ère']  # 're' and 'ère' are feminine, 'er' and 'e' are masculine
+
+        if not is_feminine and find_if_sentence_is_feminine(text):
+            is_feminine = True
 
         # Get the French ordinal
         if number in french_ordinals:
@@ -122,33 +165,3 @@ def replace_roman_or_arabic_ordinals(text, feminine=True):
     result = re.sub(arabic_pattern, replace_match, result)
 
     return result
-
-
-# Test the function
-if __name__ == "__main__":
-    test_text = "La Ire guerre mondiale, la IIe République, le IIIe siècle, le XXVIIIe arrondissement, le Le siècle."
-    print("Original:", test_text)
-    print("Replaced:", replace_roman_or_arabic_ordinals(test_text))
-
-    # More test cases including higher numbers
-    test_cases = [
-        "La Ire étape",
-        "La IIe division",
-        "La IIIe République",
-        "Le Ve siècle",
-        "Le Xe arrondissement",
-        "Le XXe siècle",
-        "Le XXIe siècle",
-        "Le XXVe anniversaire",
-        "La XXXe édition",
-        "Le XLe parallèle",
-        "Le XLVe président",
-        "Le Ie président",
-        "Le jour"  # Roman numeral for 50
-    ]
-
-    for test in test_cases:
-        print(f"{test} → {replace_roman_or_arabic_ordinals(test)}")
-
-    result = replace_roman_or_arabic_ordinals("Le Ire jour", feminine=False)
-    print(f"Le Ire jour → {result}")

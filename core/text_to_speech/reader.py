@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+from core.common.tracks import Track
+from core.libs.convert_date_ranges_to_tuples import convert_date_ranges_to_tuples
+from core.libs.text_backup import TextBackup
 from core.roman2int.arabic2litteral import convert_numbers_to_french
 from core.roman2int.av_jc import replace_av_jc
 from core.roman2int.roman2numerals import replace_roman_numerals
@@ -10,19 +13,22 @@ MAX_WORDS_PER_SECTION = 4096
 
 UNWANTED_CLASSES = ['infobox_v3', 'infobox', 'infobox--frwiki', 'noarchive', 'reference', 'mw-editsection',
                     'mw-file-description', 'references-small', 'reference-cadre', 'gallery', 'references',
-                    'references-column-width', 'navbox-container', 'bandeau-portail', 'catlinks', 'autres-projets']
+                    'references-column-width', 'navbox-container', 'bandeau-portail', 'catlinks', 'autres-projets',
+                    'bandeau-cell', 'homonymie']
 
 UNWANTED_IDS = ['Bibliographie', 'Liens_externes', 'Articles_et_autres_références',
                 'Ouvrages_spécifiques_sur_la_période_thinite', "Ouvrages_généraux_sur_l'Égypte_antique",
                 'Références', 'Notes', 'Notes_et_références']
 
 
-def extract_text_from_url(url):
+def extract_text_from_url(url: str, track_data: Track):
     """Extract text content from a webpage, returning each paragraph as a separate element"""
     # Add headers to mimic a real browser
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
+
+    text_backuper = TextBackup(track_data)
 
     response = requests.get(url, headers=headers, timeout=10)
     response.raise_for_status()
@@ -58,8 +64,9 @@ def extract_text_from_url(url):
 
     sections = []
 
-    for p in paragraphs:
+    for i, p in enumerate(paragraphs):
         p_text = p.get_text().strip()
+        text_backuper.save_original(i - 1, p_text)
         if p_text:  # Only process non-empty paragraphs
             # Clean the paragraph text
             lines = (line.strip() for line in p_text.splitlines())
@@ -71,6 +78,7 @@ def extract_text_from_url(url):
             if p_word_count >= MAX_WORDS_PER_SECTION:
                 raise ValueError(f"Paragraph exceeds {MAX_WORDS_PER_SECTION} words ({p_word_count} words)")
 
+            clean_p_text = convert_date_ranges_to_tuples(clean_p_text)
             clean_p_text = replace_roman_or_arabic_ordinals(clean_p_text)
             clean_p_text = replace_roman_numerals(clean_p_text)
             clean_p_text = replace_av_jc(clean_p_text)
@@ -103,19 +111,3 @@ def print_text_wrapped(text, max_width=120):
 
     # Add a newline after each element
     print()
-
-
-def main():
-    # Get URL from user
-    url = "https://fr.wikipedia.org/wiki/Moyen_Empire"
-
-    print(f"\nProcessing URL: {url}")
-
-    text = extract_text_from_url(url)
-
-    for e in text:
-        print_text_wrapped(e)
-
-
-if __name__ == "__main__":
-    main()

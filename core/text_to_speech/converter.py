@@ -3,14 +3,23 @@ import os
 from openai import OpenAI
 
 from config.config import Config
+from core.common.tracks import Track
+
+MODELS = {
+    "high": "tts-1-hd",
+    "med": "tts-1",
+    "low": "gpt-4o-mini-tts",
+}
+
+DEFAULT_MODEL = MODELS["low"]
 
 
 class TextToSpeechGenerator:
     INSTRUCTIONS = """
-        Effet vocal : Calme, posé et rassurant ; projeter une autorité tranquille et de la confiance.
-        Ton : Sincère, empathique et délicatement autoritaire — exprimer des excuses authentiques tout en transmettant la compétence.
-        Rythme : Régulier et modéré ; suffisamment posé pour communiquer l'attention, mais assez efficace pour démontrer le professionnalisme.
-        Émotion : Empathie et compréhension véritables ; parler avec chaleur.
+        Adoptez un ton bienveillant et passionné mais mesuré, comme un professeur d'histoire captivant. 
+        Parlez avec chaleur et enthousiasme modéré, sans dramatisation excessive. Ralentissez légèrement sur les 
+        dates et noms importants. Variez naturellement le rythme selon le contenu. Soyez respectueux et 
+        pédagogique, comme si vous partagiez une fascinante découverte historique avec des auditeurs curieux.
         """
 
     def __init__(self, working_dir: str):
@@ -32,7 +41,7 @@ class TextToSpeechGenerator:
         self.file_iterator += 1
         return filename
 
-    def text_to_speech_file(self, text):
+    def text_to_speech_file(self, text, track_data: Track):
         """Convert text to speech using OpenAI TTS and save to file"""
         # Generate filename using iterator
         audio_filename = self._generate_filename()
@@ -42,8 +51,10 @@ class TextToSpeechGenerator:
 
         # Use the streaming response method
         with self.client.audio.speech.with_streaming_response.create(
-                model="tts-1",
-                voice="onyx",
+                # model="tts-1-hd",
+                # model="tts-1",
+                model=MODELS.get(track_data.quality, DEFAULT_MODEL),
+                voice="fable",
                 input=text,
                 instructions=self.INSTRUCTIONS,
         ) as response:

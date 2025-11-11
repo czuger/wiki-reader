@@ -6,3 +6,6 @@ pygame
 pyyaml~=6.0.2
 camb-sdk
 num2words~=0.5.14
+mutagen~=1.47.0
+paramiko~=4.0.0
+scp~=0.15.0

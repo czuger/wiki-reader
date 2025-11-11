@@ -1,0 +1,30 @@
+# Music library configuration for Wikipedia Egypt collection
+globals:
+  artist: "Wikipédia"
+  album: "Seconde guerre mondiale - france"
+  remote_server: "nuc150"  # Raspberry Pi 4 server
+  remote_path: "/home/ced/navidrome/music/wikipedia/seconde_guerre_mondiale/france"
+
+tracks:
+  #  - link: "https://fr.wikipedia.org/wiki/Hugues_Capet"
+  #    title: "Hugues Capet"
+  #    track_id: 1
+  #  - link: "https://fr.wikipedia.org/wiki/Philippe_VI_de_Valois"
+  #    title: "Philippe VI"
+  #    track_id: 16
+  #  - link: "https://fr.wikipedia.org/wiki/Philippe_V_le_Long"
+  #    title: "Philippe V"
+  #    track_id: 14
+  #    quality: "med"
+  #  - link: "https://fr.wikipedia.org/wiki/Charles_IV_le_Bel"
+  #    title: "Charles IV"
+  #    track_id: 15
+  #    quality: "med"
+  #  - link: "https://fr.wikipedia.org/wiki/Charles_V_le_Sage"
+  #    title: "Charles V"
+  #    track_id: 17
+  #    quality: "med"
+  - link: "https://fr.wikipedia.org/wiki/Philippe_IV_le_Bel"
+    title: "Philippe IV le bel"
+    track_id: 13
+    quality: "med"
