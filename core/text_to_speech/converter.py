@@ -11,7 +11,7 @@ MODELS = {
     "low": "gpt-4o-mini-tts",
 }
 
-DEFAULT_MODEL = MODELS["low"]
+DEFAULT_MODEL = MODELS["med"]
 
 
 class TextToSpeechGenerator:
@@ -20,6 +20,9 @@ class TextToSpeechGenerator:
         Parlez avec chaleur et enthousiasme modéré, sans dramatisation excessive. Ralentissez légèrement sur les 
         dates et noms importants. Variez naturellement le rythme selon le contenu. Soyez respectueux et 
         pédagogique, comme si vous partagiez une fascinante découverte historique avec des auditeurs curieux.
+        Le texte est en français, faites très attention aux liaisons dans cette langue.
+        Évitez de trop appuyer sur les majuscules et les débuts de phrases.
+        Évitez également de trop appuyer sur les nombres et les chiffres.
         """
 
     def __init__(self, working_dir: str):
@@ -51,8 +54,6 @@ class TextToSpeechGenerator:
 
         # Use the streaming response method
         with self.client.audio.speech.with_streaming_response.create(
-                # model="tts-1-hd",
-                # model="tts-1",
                 model=MODELS.get(track_data.quality, DEFAULT_MODEL),
                 voice="fable",
                 input=text,
@@ -70,16 +71,3 @@ class TextToSpeechGenerator:
     def get_current_iterator_value(self):
         """Get the current iterator value"""
         return self.file_iterator
-
-
-def main():
-    # Get URL from user
-    t = TextToSpeechGenerator(".")
-    t.text_to_speech_file("""
-    Il couvre une période allant des environs de deux mille trente-trois à mille sept cent quatre-vingt-six avant Jésus-Christ et
-connaît deux ou trois dynasties.
-    """)
-
-
-if __name__ == "__main__":
-    main()

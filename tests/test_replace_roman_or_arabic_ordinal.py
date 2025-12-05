@@ -69,10 +69,11 @@ class TestReplaceRomanOrArabicOrdinals(unittest.TestCase):
 
     def test_no_ordinal(self) -> None:
         """Teste un texte sans ordinal romain."""
-        input_text = "Le jour"
-        result = replace_roman_or_arabic_ordinals(input_text)
-
-        self.assertEqual(result, input_text)
+        input_texts = ["Le jour", "bouscule Jean de Montfort à L'Humeau, puis assiège Nantes ",
+                       "la bataille de L'Écluse"]
+        for input_text in input_texts:
+            result = replace_roman_or_arabic_ordinals(input_text)
+            self.assertEqual(result, input_text)
 
     def test_edge_case_first_ordinal(self) -> None:
         """Teste spécifiquement le premier ordinal."""

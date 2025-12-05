@@ -6,6 +6,10 @@ globals:
   remote_path: "/home/ced/navidrome/music/wikipedia/rois_de_France/"
 
 tracks:
+  - link: "https://fr.wikipedia.org/wiki/Jean_II_le_Bon"
+    title: "Jean II"
+    track_id: 17
+    quality: "med"
   #  - link: "https://fr.wikipedia.org/wiki/Hugues_Capet"
   #    title: "Hugues Capet"
   #    track_id: 1
@@ -24,7 +28,11 @@ tracks:
   #    title: "Charles V"
   #    track_id: 17
   #    quality: "med"
-  - link: "https://fr.wikipedia.org/wiki/Philippe_IV_le_Bel"
-    title: "Philippe IV le bel"
-    track_id: 13
-    quality: "med"
+  #  - link: "https://fr.wikipedia.org/wiki/Philippe_IV_le_Bel"
+  #    title: "Philippe IV le bel"
+  #    track_id: 13
+  #    quality: "med"
+  #  - link: "https://fr.wikipedia.org/wiki/Charles_V_le_Sage"
+  #    title: "Charles V"
+  #    track_id: 17
+  #    quality: "med"

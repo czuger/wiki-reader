@@ -57,17 +57,27 @@ french_numerals = {
 }
 
 
-def replace_roman_numerals(text):
+def replace_roman_numerals(text: str) -> str:
     """
-    Replace standalone Roman numerals (I, II, III, etc.) with French ordinals
-    (première, seconde, troisième, etc.) up to 50
+    Replace standalone Roman numerals with French ordinals.
+
+    Replaces Roman numerals (I, II, III, etc.) with their French equivalents
+    (première, seconde, troisième, etc.) up to 50, except if :
+    - They are at the beginning of the text
+    - They are preceded by a period within the 3 preceding characters
+    - They are followed by an apostrophe
+
+    Args :
+        text : The text to process
+
+    Returns :
+        The text with Roman numerals replaced
     """
-    # Pattern to match standalone Roman numerals
     pattern = r'\b([IVXL]+)\b'
 
     def replace_match(match):
-        # Get the full match and its position
         start_pos = match.start()
+        end_pos = match.end()
 
         # Don't replace if at the beginning of text
         if start_pos == 0:
@@ -77,25 +87,28 @@ def replace_roman_numerals(text):
         check_start = max(0, start_pos - 3)
         preceding_chars = text[check_start:start_pos]
 
-        # If there's a period in the preceding 3 characters, don't replace
+        # TODO : factorise with replace_roman_or_arabic_ordinals (shortcuts cases)
         if '.' in preceding_chars:
+            return match.group(0)
+
+        # If there's a « in the preceding 3 characters, don't replace
+        if '«' in preceding_chars:
+            return match.group(0)  # Return original
+
+        # Check if followed by an apostrophe
+        if end_pos < len(text) and text[end_pos] == "'":
             return match.group(0)
 
         roman_part = match.group(1)
 
         # Only convert if it's a valid Roman numeral
-        try:
-            # Check if it only contains valid Roman numeral characters
-            if all(c in 'IVXL' for c in roman_part):
-                number = roman_to_int(roman_part)
+        if all(c in 'IVXL' for c in roman_part):
+            number = roman_to_int(roman_part)
 
-                # Make sure it's a positive number and within our range
-                if number > 0 and number in french_numerals:
-                    return french_numerals[number]
-        except:
-            pass
+            if number > 0 and number in french_numerals:
+                return french_numerals[number]
 
-        return match.group(0)  # Return original if not convertible
+        return match.group(0)
 
     result = re.sub(pattern, replace_match, text)
     return result

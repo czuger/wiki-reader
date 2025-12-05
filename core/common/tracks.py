@@ -32,7 +32,8 @@ class YamlTrackReader:
                 track_id=merged_data.get('track_id', ''),
                 remote_server=merged_data.get('remote_server', ''),
                 distant_path=merged_data.get('remote_path', ''),  # Note: YAML uses 'remote_path'
-                quality=merged_data.get('quality', 'low')
+                # TODO : move DEFAULT_MODELS to a distinct class to avoid circular import issue and repace med by dEFAULT_MODELS
+                quality=merged_data.get('quality', "med")
             )
             self.tracks.append(track)
 

@@ -1,12 +1,14 @@
 import argparse
 import os
 import shutil
+import subprocess
 from argparse import ArgumentParser
 
 import paramiko
 from paramiko import SSHClient
 from scp import SCPClient
 
+from core.common.set_tags import set_local_tag
 from core.common.tracks import Track, YamlTrackReader
 from core.libs.text_backup import TextBackup
 from core.text_to_speech.converter import TextToSpeechGenerator
@@ -80,7 +82,7 @@ def download_and_convert(working_dir: str, track_data: Track) -> None:
 
         # Convert to speech
         print("Converting text to speech...")
-        # tt_sg.text_to_speech_file(p, track_data)
+        tt_sg.text_to_speech_file(p, track_data)
 
 
 def process_link(args: argparse.Namespace, track_data: Track) -> None:
@@ -89,14 +91,14 @@ def process_link(args: argparse.Namespace, track_data: Track) -> None:
     if not use_existing_data:
         download_and_convert(working_dir, track_data)
 
-    # print("Concatenating data...")
-    # subprocess.run(["./scripts/concat.sh", working_dir])
-    #
-    # print("Setting tags data...")
-    # set_local_tag(track_data)
-    #
-    # print("Pushing file...")
-    # copy_to_remote(f"{working_dir}/concatenated_file.mp3", track_data.remote_server, track_data.remote_name())
+    print("Concatenating data...")
+    subprocess.run(["./scripts/concat.sh", working_dir])
+
+    print("Setting tags data...")
+    set_local_tag(track_data)
+
+    print("Pushing file...")
+    copy_to_remote(f"{working_dir}/concatenated_file.mp3", track_data.remote_server, track_data.remote_name())
 
 
 def main():

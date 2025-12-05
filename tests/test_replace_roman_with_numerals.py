@@ -65,8 +65,12 @@ class TestReplaceRomanNumerals(unittest.TestCase):
 
     def test_texte_sans_chiffre_romain(self):
         """Teste qu'un texte sans chiffre romain reste inchangé."""
-        text = "Ceci est un texte normal"
-        self.assertEqual(replace_roman_numerals(text), text)
+        input_texts = ["Le jour", "bouscule Jean de Montfort à L'Humeau, puis assiège Nantes ",
+                       "la bataille de L'Écluse", "Ceci est un texte normal"]
+
+        for input_text in input_texts:
+            result = replace_roman_numerals(input_text)
+            self.assertEqual(result, input_text)
 
 
 if __name__ == "__main__":
